@@ -91,15 +91,19 @@ namespace WindowsFormsApp1
             switch (filterNum)
             {
                 case 1:
-                    FilterSepia();
+                    pictureBox1.Image = new SepiaFilter().UseFilter(defaultImage);
                     break;
 
                 case 2:
-                    FilterInversion();
+                    pictureBox1.Image = new InversionFilter().UseFilter(defaultImage);
                     break;
 
                 case 3:
-                    FilterContour();
+                    pictureBox1.Image = new ContourFilter().UseFilter(defaultImage);
+                    break;
+
+                case 4:
+                    pictureBox1.Image = new DreamcoreFilter().UseFilter(defaultImage);
                     break;
 
                 default:
@@ -107,93 +111,6 @@ namespace WindowsFormsApp1
             }
         }
 
-        private void FilterSepia()
-        {
-            Bitmap bitmap = new Bitmap(defaultImage);
-
-            for (int i = 0; i < defaultImage.Height; i++)
-            {
-                for (int j = 0; j < defaultImage.Width; j++)
-                {
-                    short red = bitmap.GetPixel(j, i).R;
-                    short green = bitmap.GetPixel(j, i).G;
-                    short blue = bitmap.GetPixel(j, i).B;
-
-                    Color newColor = Color.FromArgb((red + green + blue) / 3, (red + green + blue) / 3, (red + green + blue) / 3);
-
-                    bitmap.SetPixel(j, i, newColor);
-
-                }
-            }
-
-            pictureBox1.Image = bitmap;
-        }
-
-        private void FilterInversion()
-        {
-            Bitmap bitmap = new Bitmap(defaultImage);
-
-            for (int i = 0; i < defaultImage.Height; i++)
-            {
-                for (int j = 0; j < defaultImage.Width; j++)
-                {
-                    short red = bitmap.GetPixel(j, i).R;
-                    short green = bitmap.GetPixel(j, i).G;
-                    short blue = bitmap.GetPixel(j, i).B;
-
-                    Color newColor = Color.FromArgb(255 - red, 255 - green, 255 - blue);
-
-                    bitmap.SetPixel(j, i, newColor);
-
-                }
-            }
-
-            pictureBox1.Image = bitmap;
-        }
-
-        private void FilterContour()
-        {
-            Bitmap bitmap = new Bitmap(defaultImage);
-
-            for (int i = 0; i < defaultImage.Height; i++)
-            {
-                for (int j = 0; j < defaultImage.Width; j++)
-                {
-                    short red = bitmap.GetPixel(j, i).R;
-                    short green = bitmap.GetPixel(j, i).G;
-                    short blue = bitmap.GetPixel(j, i).B;
-
-                    Color newColor = Color.FromArgb((red + green + blue) / 3, (red + green + blue) / 3, (red + green + blue) / 3);
-
-                    bitmap.SetPixel(j, i, newColor);
-
-                }
-            }
-
-            for (int i = 0; i < defaultImage.Height - 1; i++)
-            {
-                for (int j = 0; j < defaultImage.Width - 1; j++)
-                {
-                    int current = bitmap.GetPixel(j, i).G;
-                    int up = bitmap.GetPixel(j, i + 1).G;
-                    int right = bitmap.GetPixel(j + 1, i).G;
-
-                    int dx = Math.Abs(current - up);
-                    int dy = Math.Abs(current - right);
-
-                    int gradient = (int)Math.Sqrt(dx * dx + dy * dy) * 100;
-
-                    gradient = Math.Min(255, gradient);
-
-                    Color newColor = Color.FromArgb(gradient, gradient, gradient);
-
-                    bitmap.SetPixel(j, i, newColor);
-
-                }
-            }
-
-            pictureBox1.Image = bitmap;
-        }
 
     }
 }
