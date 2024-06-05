@@ -9,26 +9,33 @@ namespace WindowsFormsApp1
         {
             Bitmap bitmap = new Bitmap(defaultImage);
 
-            for (int i = 10; i < defaultImage.Height - 10; i++)
+            for (long i = 10; i < defaultImage.Height - 10; i++)
             {
                 for (int j = 0; j < defaultImage.Width; j++)
                 {
-                    int R = 0, G = 0, B = 0;
-
-                    for (int k = -2; k <= 2; k++)
+                    try
                     {
-                        R += bitmap.GetPixel(i - k, j).R;
-                        G += bitmap.GetPixel(i - k, j).G;
-                        B += bitmap.GetPixel(i - k, j).B;
+                        int R = 0, G = 0, B = 0;
+
+                        for (long k = -2; k <= 2; k++)
+                        {
+                            R += bitmap.GetPixel(Convert.ToInt32(i - k), j).R;
+                            G += bitmap.GetPixel(Convert.ToInt32(i - k), j).G;
+                            B += bitmap.GetPixel(Convert.ToInt32(i - k), j).B;
+                        }
+                        byte bR = (byte)(R / 3);
+                        byte bG = (byte)(G / 3);
+                        byte bB = (byte)(B / 3);
+
+
+                        Color cBlured = Color.FromArgb(bR, bG, bB);
+
+                        bitmap.SetPixel(Convert.ToInt32(i), j, cBlured);
+                    } catch
+                    {
+
                     }
-                    byte bR = (byte)(R / 3);
-                    byte bG = (byte)(G / 3);
-                    byte bB = (byte)(B / 3);
 
-
-                    Color cBlured = Color.FromArgb(bR, bG, bB);
-
-                    bitmap.SetPixel(i, j, cBlured);
 
                 }
             }
